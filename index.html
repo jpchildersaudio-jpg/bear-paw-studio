@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bear Paw Studio — Preview</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="brand">
+      <div class="logo" aria-hidden="false" title="Bear Paw Studio logo">
+        <!-- Inline SVG logo: VU meter + claws (simplified for demo) -->
+        <svg id="logoSVG" viewBox="0 0 300 300" width="200" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bear Paw Studio logo">
+          <defs>
+            <linearGradient id="meterGrad" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stop-color="#3a5d66"/>
+              <stop offset="1" stop-color="#203a42"/>
+            </linearGradient>
+            <mask id="clawMask">
+              <rect x="0" y="0" width="300" height="300" fill="black"/>
+              <!-- animated stroke path will reveal when strokeDashoffset animates -->
+              <path id="clawStroke" d="M30 160 C50 90 70 50 100 44
+                                        M70 200 C105 140 128 100 156 86
+                                        M125 225 C165 150 200 118 238 108
+                                        M170 255 C200 175 235 140 270 120"
+                    fill="none" stroke="#fff" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1" />
+            </mask>
+            <clipPath id="clawClip">
+              <path d="M30 160 C50 90 70 50 100 44
+                       M70 200 C105 140 128 100 156 86
+                       M125 225 C165 150 200 118 238 108
+                       M170 255 C200 175 235 140 270 120"
+                    fill="none" stroke="#fff" stroke-width="38" stroke-linecap="round" stroke-linejoin="round" />
+            </clipPath>
+          </defs>
+
+          <!-- meter box -->
+          <rect x="15" y="40" width="270" height="200" rx="14" ry="14" fill="url(#meterGrad)" />
+          <rect x="32" y="60" width="236" height="150" rx="10" ry="10" fill="#ffffff" opacity="0.06"/>
+
+          <!-- VU scale (simple) -->
+          <g id="ticks" transform="translate(150,150)">
+            <path d="M-100 0 A100 100 0 0 1 100 0" fill="none" stroke="#e6f0f2" stroke-opacity="0.08" stroke-width="2"/>
+          </g>
+
+          <!-- needle group (rotated to show levels) -->
+          <g id="needleGroup" transform="translate(150,150)">
+            <circle cx="0" cy="0" r="10" fill="#0f2a30" stroke="#071012" stroke-width="2"/>
+            <rect id="needle" x="-4" y="-110" width="8" height="110" rx="4" fill="#dfeff1" />
+          </g>
+
+          <!-- small labels -->
+          <g transform="translate(150,150)" fill="#e8f2f4" opacity="0.12" font-size="10" text-anchor="middle">
+            <text x="-74" y="32">-20</text>
+            <text x="70" y="32">+3</text>
+            <text x="0" y="-8">VU</text>
+          </g>
+
+          <!-- claws drawn on top -->
+          <g id="clawsGroup" clip-path="url(#clawClip)">
+            <path d="M30 160 C50 90 70 50 100 44
+                     M70 200 C105 140 128 100 156 86
+                     M125 225 C165 150 200 118 238 108
+                     M170 255 C200 175 235 140 270 120"
+                  fill="none" stroke="#0f3036" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
+            <path d="M30 160 C50 90 70 50 100 44
+                     M70 200 C105 140 128 100 156 86
+                     M125 225 C165 150 200 118 238 108
+                     M170 255 C200 175 235 140 270 120"
+                  fill="none" stroke="#cfe8ea" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.12"/>
+          </g>
+
+          <!-- masked area (for scratch reveal) -->
+          <g mask="url(#clawMask)">
+            <rect x="15" y="40" width="270" height="200" rx="14" ry="14" fill="#2b5e66" />
+            <circle cx="150" cy="150" r="90" fill="rgba(0,0,0,0.04)" />
+          </g>
+
+        </svg>
+      </div>
+
+      <div class="brand-text">
+        <h1>Bear Paw</h1>
+        <p>STUDIO</p>
+      </div>
+    </div>
+
+    <nav role="navigation" aria-label="Main navigation">
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="preview-area">
+      <h2>Live VU Meter Demo</h2>
+      <p class="muted">The VU meter below reacts to the embedded audio track. Replace <code>assets/track.mp3</code> with your chosen song.</p>
+
+      <div class="player-row">
+        <!-- audio element: replace assets/track.mp3 with your file -->
+        <audio id="audioElem" src="assets/track.mp3" crossorigin="anonymous" loop></audio>
+        <div class="controls">
+          <button id="playBtn">Play / Resume</button>
+          <label>Volume: <input id="vol" type="range" min="0" max="1" step="0.01" value="0.8"></label>
+          <label>Intensity: <input id="intensity" type="range" min="0" max="1" step="0.01" value="0.75"></label>
+        </div>
+      </div>
+
+      <div class="large-meter" aria-hidden="true">
+        <!-- big SVG meter re-used for clearer preview, needleGroup is controlled by JS -->
+        <svg viewBox="0 0 600 300" width="100%" height="200" xmlns="http://www.w3.org/2000/svg" id="bigMeter">
+          <rect x="10" y="10" width="580" height="280" rx="18" fill="#0e2a30" opacity="0.8"/>
+          <g id="bigNeedleGroup" transform="translate(300,200)">
+            <circle cx="0" cy="0" r="16" fill="#071012"/>
+            <rect id="bigNeedle" x="-8" y="-160" width="16" height="160" rx="8" fill="#e8f3f4"/>
+          </g>
+        </svg>
+      </div>
+
+    </section>
+
+    <section class="stickers">
+      <h2>Sticker mockups</h2>
+      <p class="muted">A few simple sticker layouts you can export for printing. These are PNG-style previews (use the vector SVGs in your real exports).</p>
+      <div class="sticker-row">
+        <div class="sticker card">
+          <div class="sticker-inner">
+            <!-- circular sticker -->
+            <svg viewBox="0 0 300 300" class="sticker-svg">
+              <rect width="100%" height="100%" rx="48" fill="#f7f6f5"/>
+              <g transform="translate(50,30)">
+                <!-- reuse logo shapes in simplified form -->
+                <rect x="10" y="10" width="200" height="135" rx="12" fill="#2b5e66"/>
+                <g transform="translate(110,77)">
+                  <rect x="-100" y="-65" width="200" height="130" rx="6" fill="rgba(0,0,0,0.06)"/>
+                </g>
+                <g transform="translate(110,105)">
+                  <circle cx="0" cy="0" r="40" fill="#dfeff1"/>
+                </g>
+              </g>
+              <text x="150" y="260" font-size="20" text-anchor="middle" fill="#0f2a30">BEAR PAW STUDIO</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="sticker card">
+          <div class="sticker-inner">
+            <!-- rectangular sticker version -->
+            <svg viewBox="0 0 400 200" class="sticker-svg">
+              <rect width="100%" height="100%" rx="16" fill="#0f2a30"/>
+              <g transform="translate(40,20)">
+                <rect x="10" y="10" width="160" height="100" rx="10" fill="#2b5e66"/>
+                <g transform="translate(90,70)">
+                  <rect x="-70" y="-40" width="140" height="80" rx="6" fill="rgba(0,0,0,0.06)"/>
+                </g>
+              </g>
+              <text x="200" y="135" font-size="28" text-anchor="middle" fill="#e8f3f4">BEAR PAW</text>
+            </svg>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p class="muted">Preview package — replace <code>assets/track.mp3</code> with your chosen audio file. Autoplay may be blocked by browsers; click "Play / Resume" to start audio & animation.</p>
+  </footer>
+
+<script src="script.js"></script>
+</body>
+</html>

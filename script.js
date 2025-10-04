@@ -1,5 +1,7 @@
 const audio = document.getElementById('bg-music');
 const needle = document.getElementById('needle');
+const overlay = document.getElementById('overlay');
+const playButton = document.getElementById('playButton');
 
 // Web Audio API for VU animation
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -15,14 +17,12 @@ function animateNeedle() {
   requestAnimationFrame(animateNeedle);
   analyser.getByteTimeDomainData(dataArray);
   
-  // Calculate average amplitude
   let sum = 0;
   for (let i = 0; i < bufferLength; i++) {
     sum += Math.abs(dataArray[i] - 128);
   }
   let avg = sum / bufferLength;
   
-  // Map average amplitude to needle angle (-45° to +45°)
   let angle = (avg / 64) * 90 - 45;
   if (angle > 45) angle = 45;
   if (angle < -45) angle = -45;
@@ -30,9 +30,11 @@ function animateNeedle() {
   needle.style.transform = `rotate(${angle}deg)`;
 }
 
-audio.onplay = () => {
+playButton.addEventListener('click', () => {
+  overlay.style.display = 'none';
   if (audioCtx.state === 'suspended') {
     audioCtx.resume();
   }
+  audio.play();
   animateNeedle();
-};
+});

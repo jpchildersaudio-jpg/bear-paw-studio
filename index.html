@@ -1,44 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bear Paw Studio</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      background-color: #1c252e;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #fff;
+    }
+    .container {
+      text-align: center;
+    }
+    img {
+      max-width: 90%;
+      height: auto;
+    }
+    nav {
+      position: absolute;
+      top: 20px;
+      right: 40px;
+    }
+    nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #777;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+    nav a:hover {
+      color: #fff;
+    }
+  </style>
 </head>
 <body>
   <nav>
-    <ul>
-      <li><a href="#">HOME</a></li>
-      <li><a href="#">ABOUT</a></li>
-      <li><a href="#">CONTACT</a></li>
-    </ul>
+    <a href="#">HOME</a>
+    <a href="#">ABOUT</a>
+    <a href="#">CONTACT</a>
   </nav>
-
-  <main>
-    <div class="logo-container">
-      <div class="vu-meter">
-        <div class="needle" id="needle"></div>
-        <div class="scale">
-          <span>-20</span>
-          <span>0</span>
-          <span>+3</span>
-        </div>
-      </div>
-      <div class="claw-marks">
-        <div class="mark"></div>
-        <div class="mark"></div>
-        <div class="mark"></div>
-      </div>
-      <h1>BEAR<br>PAW<br><span>STUDIO</span></h1>
-    </div>
-  </main>
-
-  <div id="overlay">
-    <button id="playButton">Enter Site</button>
+  <div class="container">
+    <img src="logo.jpeg" alt="Bear Paw Studio Logo">
   </div>
-
-  <audio id="bg-music" src="assets/track.mp3" loop></audio>
-  <script src="script.js"></script>
 </body>
 </html>
